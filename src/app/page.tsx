@@ -2,11 +2,15 @@
 
 import { useEffect } from "react";
 import Header from "@/components/Header";
-import HeroSection from "@/components/HeroSection";
+import dynamic from "next/dynamic";
 import ProjectSlider from "@/components/ProjectSlider";
 import ServicesSection from "@/components/ServicesSection";
 import Tech from "@/components/Tech";
 // import Portfolio from "@/components/PortfolioSections";
+
+// Importe o HeroSection dinamicamente com ssr desativado
+const HeroSection = dynamic(() => import("../components/HeroSection"), { ssr: false });
+
 export default function Home() {
   useEffect(() => {
     // Inicializa Lenis apenas no lado do cliente

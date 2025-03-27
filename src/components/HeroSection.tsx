@@ -57,8 +57,9 @@ function Galaxy({ mouseX, mouseY }: GalaxyProps) {
   );
 }
 
-const HeroSection = () => {
+export default function HeroSection() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isBrowser, setIsBrowser] = useState(false);
 
   const handleMouseMove = (e: MouseEvent) => {
     const x = (e.clientX / window.innerWidth) * 2 - 1;
@@ -67,11 +68,16 @@ const HeroSection = () => {
   };
 
   useEffect(() => {
+    setIsBrowser(true);
     window.addEventListener("mousemove", handleMouseMove);
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
     };
   }, []);
+
+  if (!isBrowser) {
+    return null;
+  }
 
   return (
     <section className="max-w-[1441px] mx-auto px-4 sm:px-6 mt-40 relative">
@@ -137,6 +143,4 @@ const HeroSection = () => {
       </motion.div>
     </section>
   );
-};
-
-export default HeroSection;
+}
