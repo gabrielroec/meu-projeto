@@ -120,10 +120,24 @@ function SimpleHeroContent() {
 // Componente principal do HeroSection
 export default function HeroSection() {
   const [isClient, setIsClient] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    setIsClient(true);
+    try {
+      setIsClient(true);
+    } catch (error) {
+      setHasError(true);
+      setErrorMessage(error instanceof Error ? error.message : "Erro desconhecido");
+      console.error("Erro ao inicializar o componente:", error);
+    }
   }, []);
+
+  // Se ocorrer um erro, mostre apenas o conteúdo estático
+  if (hasError) {
+    console.error("Erro detectado:", errorMessage);
+    return <SimpleHeroContent />;
+  }
 
   // Renderiza apenas o conteúdo estático se não estivermos no cliente
   if (!isClient) {
@@ -131,17 +145,25 @@ export default function HeroSection() {
   }
 
   // No cliente, carregamos dinamicamente o componente completo com Three.js
-  const ThreeCanvas = dynamic(() => import("./ThreeGalaxy").then((mod) => mod.default), { ssr: false });
+  try {
+    const ThreeCanvas = dynamic(() => import("./ThreeGalaxy").then((mod) => mod.default), {
+      ssr: false,
+      loading: () => <div>Carregando visualização 3D...</div>,
+    });
 
-  return (
-    <section className="max-w-[1441px] mx-auto px-4 sm:px-6 mt-40 relative">
-      {/* Galáxia em Three.js */}
-      <div className="absolute inset-0 z-0" style={{ height: "100vh", top: "-40vh" }}>
-        <ThreeCanvas />
-      </div>
+    return (
+      <section className="max-w-[1441px] mx-auto px-4 sm:px-6 mt-40 relative">
+        {/* Galáxia em Three.js */}
+        <div className="absolute inset-0 z-0" style={{ height: "100vh", top: "-40vh" }}>
+          <ThreeCanvas />
+        </div>
 
-      {/* Conteúdo existente - reuse o SimpleHeroContent */}
-      <SimpleHeroContent />
-    </section>
-  );
+        {/* Conteúdo existente - reuse o SimpleHeroContent */}
+        <SimpleHeroContent />
+      </section>
+    );
+  } catch (error) {
+    console.error("Erro ao renderizar ThreeCanvas:", error);
+    return <SimpleHeroContent />;
+  }
 }
