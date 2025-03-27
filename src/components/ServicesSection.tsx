@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
-type ServiceType = "sites" | "landingpages" | "ecommerces";
+type ServiceType = "sites" | "landingpages" | "ecommerces" | "saas" | "apps";
 
 interface ServiceInfo {
   type: ServiceType;
@@ -27,6 +27,16 @@ const services: ServiceInfo[] = [
     type: "ecommerces",
     title: "E-commerces",
     image: "/p3.png",
+  },
+  {
+    type: "saas",
+    title: "SaaS",
+    image: "/p4.png",
+  },
+  {
+    type: "apps",
+    title: "Apps",
+    image: "/p5.png",
   },
 ];
 
