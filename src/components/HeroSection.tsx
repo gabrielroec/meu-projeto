@@ -4,6 +4,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { PointMaterial } from "@react-three/drei";
 import { useRef, useState, useEffect } from "react";
 import * as THREE from "three";
+import dynamic from "next/dynamic";
 
 interface GalaxyProps {
   mouseX?: number;
@@ -57,39 +58,10 @@ function Galaxy({ mouseX, mouseY }: GalaxyProps) {
   );
 }
 
-export default function HeroSection() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isBrowser, setIsBrowser] = useState(false);
-
-  const handleMouseMove = (e: MouseEvent) => {
-    const x = (e.clientX / window.innerWidth) * 2 - 1;
-    const y = -(e.clientY / window.innerHeight) * 2 + 1;
-    setMousePosition({ x, y });
-  };
-
-  useEffect(() => {
-    setIsBrowser(true);
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
-
-  if (!isBrowser) {
-    return null;
-  }
-
+// Componente que renderiza apenas o conteúdo sem Three.js
+function SimpleHeroContent() {
   return (
     <section className="max-w-[1441px] mx-auto px-4 sm:px-6 mt-40 relative">
-      {/* Galáxia em Three.js */}
-      <div className="absolute inset-0 z-0" style={{ height: "100vh", top: "-40vh" }}>
-        <Canvas camera={{ position: [0, 0, 15], fov: 60 }}>
-          <ambientLight intensity={0.5} />
-          <Galaxy mouseX={mousePosition.x} mouseY={mousePosition.y} />
-        </Canvas>
-      </div>
-
-      {/* Conteúdo existente */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -141,6 +113,35 @@ export default function HeroSection() {
           </motion.button>
         </motion.div>
       </motion.div>
+    </section>
+  );
+}
+
+// Componente principal do HeroSection
+export default function HeroSection() {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Renderiza apenas o conteúdo estático se não estivermos no cliente
+  if (!isClient) {
+    return <SimpleHeroContent />;
+  }
+
+  // No cliente, carregamos dinamicamente o componente completo com Three.js
+  const ThreeCanvas = dynamic(() => import("./ThreeGalaxy").then((mod) => mod.default), { ssr: false });
+
+  return (
+    <section className="max-w-[1441px] mx-auto px-4 sm:px-6 mt-40 relative">
+      {/* Galáxia em Three.js */}
+      <div className="absolute inset-0 z-0" style={{ height: "100vh", top: "-40vh" }}>
+        <ThreeCanvas />
+      </div>
+
+      {/* Conteúdo existente - reuse o SimpleHeroContent */}
+      <SimpleHeroContent />
     </section>
   );
 }

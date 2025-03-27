@@ -8,8 +8,15 @@ import ServicesSection from "@/components/ServicesSection";
 import Tech from "@/components/Tech";
 // import Portfolio from "@/components/PortfolioSections";
 
-// Importe o HeroSection dinamicamente com ssr desativado
-const HeroSection = dynamic(() => import("../components/HeroSection"), { ssr: false });
+// Importe o HeroSection dinamicamente com ssr desativado e loading
+const HeroSection = dynamic(() => import("../components/HeroSection"), {
+  ssr: false,
+  loading: () => (
+    <div className="max-w-[1441px] mx-auto px-4 sm:px-6 mt-40 relative">
+      <div className="text-2xl md:text-4xl lg:text-6xl font-bold leading-tight mb-8 text-left max-w-[90%]">Carregando...</div>
+    </div>
+  ),
+});
 
 export default function Home() {
   useEffect(() => {
