@@ -1,1 +1,5 @@
+@import url("https://fonts.cdnfonts.com/css/mona-sans");
 @import "tailwindcss";
+* {
+  font-family: "Mona-Sans" !important;
+}

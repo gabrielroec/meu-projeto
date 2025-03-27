@@ -47,7 +47,7 @@ export default function ServicesSection() {
 
   return (
     <section className="py-24 bg-transparent">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="max-w-[1441px] mx-auto px-4 sm:px-6">
         {/* Título da seção */}
         <h2 className="text-5xl font-bold text-center mb-16 text-gray-900">Serviços</h2>
 

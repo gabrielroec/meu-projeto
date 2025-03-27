@@ -50,7 +50,7 @@ export default function ProjectSlider() {
   const scrollTo = useCallback((index: number) => emblaMainApi && emblaMainApi.scrollTo(index), [emblaMainApi]);
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-40 relative rounded-2xl">
+    <section className="max-w-[1441px] mx-auto px-4 sm:px-6 mt-40 relative rounded-2xl">
       <div className="rounded-2xl">
         {/* Carrossel */}
         <div className="overflow-hidden w-full rounded-2xl" ref={emblaMainRef}>
@@ -58,12 +58,12 @@ export default function ProjectSlider() {
             {slides.map((slide) => (
               <div key={slide.id} className="flex-shrink-0 w-full">
                 <div className="flex justify-center w-full">
-                  <div className="relative w-full shadow-xl rounded-lg overflow-hidden">
+                  <div className="relative w-full rounded-2xl overflow-hidden">
                     <Image
                       src={slide.image}
                       alt={slide.alt}
                       width={3000}
-                      height={1687}
+                      height={0}
                       className="w-full object-cover"
                       priority={slide.id === 1}
                     />

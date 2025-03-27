@@ -21,7 +21,7 @@ const Header = () => {
 
   return (
     <motion.header className="fixed w-full z-50 bg-white top-0" initial={{ y: -100 }} animate={{ y: 0 }} transition={{ duration: 0.5 }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="max-w-[1441px] mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>

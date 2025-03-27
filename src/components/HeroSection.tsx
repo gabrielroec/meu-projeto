@@ -74,7 +74,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-40 relative">
+    <section className="max-w-[1441px] mx-auto px-4 sm:px-6 mt-40 relative">
       {/* Galáxia em Three.js */}
       <div className="absolute inset-0 z-0" style={{ height: "100vh", top: "-40vh" }}>
         <Canvas camera={{ position: [0, 0, 15], fov: 60 }}>
